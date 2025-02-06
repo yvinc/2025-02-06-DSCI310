@@ -235,3 +235,17 @@ jobs:
 
 
 > Note `images` name needs to be changed.
+
+5. Push the new folder onto Github.
+
+6. Go to Gitaction on Github, intiate the workflow there.
+
+7. `secretes and variables`, go to `action`:
+- Create `new repository secretes`
+- Looking for `DOCKER_USERNAME`, type in your username as the value.
+- Then go in again for `DOCKER_PASSWORD`, type in your user password.
+
+8. Now re-run all failed jobs, which passes all login info.
+9. We now should be able to see the image is being built in Github action.
+10. Note that the `images` should contain your own username. Add, commit, and push the file.
+11. Rerun the failed job on Git action.
