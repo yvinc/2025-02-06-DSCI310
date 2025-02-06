@@ -186,7 +186,7 @@ Then finally run:
 - This is a `.yml` that Github understands.
 
 4. Within `.yml`, paste (from ch.12 in textbook):
-
+```
 # Publishes docker image, pinning actions to a commit SHA,
 # and updating most recently built image with the latest tag.
 # Can be triggered by either pushing a commit that changes the `Dockerfile`,
@@ -233,6 +233,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+```
 
 > Note `images` name needs to be changed.
 
