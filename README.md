@@ -1,4 +1,5 @@
 # 2025-02-06-DSCI310
+### Even More on Docker:
 
 ```bash
 docker run \
@@ -146,3 +147,24 @@ RUN Rscript -e "install.packages('remotes', repos = c(CRAN = 'https://cloud.r-pr
 > RUN Rscript -e "install.packages('remotes', repos = c(CRAN = 'https://cloud.r-project.org'))"
 > 
 > COPY renv.lock /home/rsudio/renv.lock
+
+
+### How do I take this container (and image) from my local and share it?
+#### Docker Hub:
+- When we use rocker/rstudio:4.4.2, there's a service within rocker with the repo 'rstudio' that can be shared.
+- First we need to login to docker with the command `docker login -u chendanialy`
+    - `-u` stands for user name.
+    - Don't just type in `docker login alone`.
+
+- To get our docker up to the hub, we will change our way of building our container by including our username:
+> `docker build --tag **chendaniely**/mycontainer .`
+- When a command gets changed, Docker will only run the added command (yayy) so that it doesn't re-run the previously 'loaded' package again.
+
+Then finally run:
+> `docker push chendanialy/mycontainer`
+
+- We can then be able to see our container on dockerhub when we search up our own username (e.g., `chendanialy` in this example).
+- When we use this container with this image, we need to make sure we build the edited container, push it onto Docker Hub so that the new image is now .
+
+
+### How to automate the build process?
