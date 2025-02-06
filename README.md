@@ -168,3 +168,70 @@ Then finally run:
 
 
 ### How to automate the build process?
+#### GitHub Action (chapter 12, end of page)
+> https://ubc-dsci.github.io/reproducible-and-trustworthy-workflows-for-data-science/lectures/120-containerization-3.html 
+
+1. Copy the script on textbook
+- Handles all the automation such that whenever changes is made to Docker file or when we manually run it, trigger update on the Github repository!
+- Tell github to login to your account.
+- Then build the docker.
+- Push the image onto Docker Hub automatically.
+
+2. Create 2 folders in our repository:
+- First folder is called `.github`
+- Within `.github`, create `workflows`.
+    - These folder names are specific, because Github knows how to read these names.
+
+3. Create `docker.yml` within `workflows`
+- This is a `.yml` that Github understands.
+
+4. Within `.yml`, paste (from ch.12 in textbook):
+
+# Publishes docker image, pinning actions to a commit SHA,
+# and updating most recently built image with the latest tag.
+# Can be triggered by either pushing a commit that changes the `Dockerfile`,
+# or manually dispatching the workflow.
+
+name: Publish Docker image
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'Dockerfile'
+      - 'conda-linux-64.lock'
+
+jobs:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ttimbers/dsci522-dockerfile-practice
+          tags: |
+            type=raw, value={{sha}},enable=${{github.ref_type != 'tag' }}
+            type=raw, value=latest
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+
+> Note `images` name needs to be changed.
