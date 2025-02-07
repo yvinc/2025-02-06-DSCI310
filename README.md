@@ -157,7 +157,7 @@ RUN Rscript -e "install.packages('remotes', repos = c(CRAN = 'https://cloud.r-pr
     - Don't just type in `docker login alone`.
 
 - To get our docker up to the hub, we will change our way of building our container by including our username:
-> `docker build --tag **chendaniely**/mycontainer .`
+> **`docker build --tag **chendaniely**/mycontainer .`**
 - When a command gets changed, Docker will only run the added command (yayy) so that it doesn't re-run the previously 'loaded' package again.
 
 Then finally run:
