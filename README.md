@@ -1,9 +1,3 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
 # 2025-02-06-DSCI310
 
 ### Even More on Docker:
